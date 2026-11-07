@@ -563,6 +563,37 @@ async function atualizarUsuario() {
 
     await verificarAdministrador(user);
 }
+    
+async function verificarAdministrador(user) {
+    if (!user) {
+        console.log('Nenhum usuário conectado.');
+        return;
+    }
+
+    const { data: perfil, error } = await supabaseClient
+        .from('admin_profiles')
+        .select('admin_role, active')
+        .eq('id', user.id)
+        .maybeSingle();
+
+    if (error) {
+        console.error('Erro ao verificar administrador:', error.message);
+        alert('Não foi possível verificar suas permissões.');
+        return;
+    }
+
+    if (!perfil || perfil.active !== true) {
+        console.log('Usuário sem acesso administrativo.');
+        return;
+    }
+
+    console.log('Administrador reconhecido:', perfil.admin_role);
+
+    if (perfil.admin_role === 'Dono') {
+        console.log('Acesso de Dono reconhecido!');
+    }
+}
+
 
 // OBSERVAR ALTERAÇÕES DE LOGIN
 supabaseClient.auth.onAuthStateChange((_event, session) => {
