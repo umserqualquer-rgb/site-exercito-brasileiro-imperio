@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EB Império | Portal Oficial</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #0b1220;
+    color: white;
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #101b2e;
+    padding: 25px 18px;
+    border-right: 1px solid #263750;
+    min-height: 100vh;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #d8b45b;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #899bb4;
+    font-size: 10px;
+    margin-bottom: 35px;
+}
+
+.menu-title {
+    color: #73849e;
+    font-size: 11px;
+    margin: 24px 10px 12px;
+}
+
+.menu button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: #b8c5d8;
+    padding: 13px;
+    margin-bottom: 5px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.menu button:hover,
+.menu button.active {
+    background: #203653;
+    color: #e5c36c;
+}
+
+.main {
+    flex: 1;
+    padding: 30px;
+    min-width: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    gap: 15px;
+}
+
+header h1 {
+    font-size: 25px;
+}
+
+header p {
+    color: #8b9bb2;
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+.status {
+    background: #183b32;
+    color: #71d6a6;
+    padding: 9px 13px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.welcome {
+    background: linear-gradient(120deg, #172d49, #263d59);
+    padding: 28px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #344b68;
+}
+
+.welcome h2 {
+    color: #e5c36c;
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    color: #c1cede;
+    font-size: 14px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+    margin-bottom: 30px;
+}
+
+.stat {
+    background: #142137;
+    border: 1px solid #283b56;
+    border-radius: 10px;
+    padding: 22px;
+}
+
+.stat span {
+    color: #93a5be;
+    font-size: 13px;
+}
+
+.stat h2 {
+    font-size: 27px;
+    margin-top: 12px;
+    color: #e5c36c;
+}
+
+.panel {
+    background: #142137;
+    border: 1px solid #283b56;
+    border-radius: 10px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.panel h3 {
+    margin-bottom: 17px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th, td {
+    padding: 14px 10px;
+    border-bottom: 1px solid #293b54;
+    font-size: 13px;
+}
+
+th {
+    color: #93a5be;
+}
+
+td {
+    color: #d5dfec;
+}
+
+.tag {
+    background: #263d59;
+    color: #e5c36c;
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.info {
+    color: #aab8ca;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+footer {
+    margin-top: 35px;
+    color: #667991;
+    font-size: 11px;
+}
+
+@media(max-width: 750px) {
+    body {
+        display: block;
+    }
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+    }
+    .stats {
+        grid-template-columns: 1fr;
+    }
+    .main {
+        padding: 18px;
+    }
+    header {
+        align-items: flex-start;
+    }
+    .panel {
+        overflow-x: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div class="logo">EB IMPÉRIO</div>
+    <div class="subtitle">EXÉRCITO BRASILEIRO</div>
+
+    <nav class="menu">
+        <div class="menu-title">PRINCIPAL</div>
+        <button class="active" onclick="showPage('inicio',this)">⌂ Início</button>
+        <button onclick="showPage('membros',this)">♟ Membros</button>
+        <button onclick="showPage('patentes',this)">★ Patentes</button>
+        <button onclick="showPage('divisoes',this)">⚔ Divisões</button>
+
+        <div class="menu-title">ADMINISTRAÇÃO</div>
+        <button onclick="showPage('promocoes',this)">↑ Promoções</button>
+        <button onclick="showPage('historico',this)">◷ Histórico</button>
+        <button onclick="showPage('configuracoes',this)">⚙ Configurações</button>
+    </nav>
+</aside>
+
+<main class="main">
+
+<header>
+    <div>
+        <h1 id="pageTitle">Painel Inicial</h1>
+        <p>SITE EXÉRCITO BRASILEIRO IMPÉRIO</p>
+    </div>
+    <div class="status">● Sistema em desenvolvimento</div>
+</header>
+
+<section id="inicio" class="section active">
+
+    <div class="welcome">
+        <h2>Bem-vindo ao EB Império!</h2>
+        <p>Portal administrativo oficial do grupo Roblox.</p>
+        <p>Grupo: 434111120</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <span>Total de membros</span>
+            <h2>--</h2>
+        </div>
+        <div class="stat">
+            <span>Divisões</span>
+            <h2>--</h2>
+        </div>
+        <div class="stat">
+            <span>Promoções realizadas</span>
+            <h2>--</h2>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h3>Informações do portal</h3>
+        <p class="info">
+            Este é o painel administrativo do Exército Brasileiro Império.
+            As funções de gerenciamento serão conectadas ao Roblox
+            nas próximas etapas.
+        </p>
+    </div>
+</section>
+
+<section id="membros" class="section">
+    <div class="panel">
+        <h3>Quadro de membros</h3>
+        <p class="info">A lista real será carregada do grupo Roblox após a integração.</p>
+    </div>
+</section>
+
+<section id="patentes" class="section">
+    <div class="panel">
+        <h3>Gerenciamento de patentes</h3>
+        <p class="info">Aqui ficará a lista de patentes do grupo e suas permissões.</p>
+    </div>
+</section>
+
+<section id="divisoes" class="section">
+    <div class="panel">
+        <h3>Divisões do Exército</h3>
+        <p class="info">Aqui serão cadastradas e organizadas as divisões do EB.</p>
+    </div>
+</section>
+
+<section id="promocoes" class="section">
+    <div class="panel">
+        <h3>Central de promoções</h3>
+        <p class="info">
+            A entrega de patentes será habilitada após a configuração
+            segura da integração com a Roblox Open Cloud.
+        </p>
+    </div>
+</section>
+
+<section id="historico" class="section">
+    <div class="panel">
+        <h3>Histórico administrativo</h3>
+        <p class="info">Os registros de alterações serão exibidos aqui.</p>
+    </div>
+</section>
+
+<section id="configuracoes" class="section">
+    <div class="panel">
+        <h3>Configurações do sistema</h3>
+        <p class="info">
+            Nome: SITE EXÉRCITO BRASILEIRO IMPÉRIO<br>
+            Grupo Roblox: 434111120<br>
+            Versão: 1.0
+        </p>
+    </div>
+</section>
+
+<footer>
+    EB IMPÉRIO © 2026 — PORTAL ADMINISTRATIVO
+</footer>
+
+</main>
+
+<script>
+function showPage(page, button) {
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    document.getElementById(page).classList.add('active');
+
+    document.querySelectorAll('.menu button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    button.classList.add('active');
+
+    const titles = {
+        inicio: 'Painel Inicial',
+        membros: 'Quadro de Membros',
+        patentes: 'Gerenciamento de Patentes',
+        divisoes: 'Divisões',
+        promocoes: 'Central de Promoções',
+        historico: 'Histórico Administrativo',
+        configuracoes: 'Configurações'
+    };
+
+    document.getElementById('pageTitle').textContent = titles[page];
+}
+</script>
+
+</body>
+</html>
