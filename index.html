@@ -372,6 +372,19 @@ function showPage(page, button) {
     document.getElementById('pageTitle').textContent = titles[page];
 }
 </script>
+<script>
+async function entrarComRoblox() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'custom:roblox',
+    options: {
+      redirectTo: window.location.origin
+    }
+  });
 
+  if (error) {
+    alert('Erro ao entrar com Roblox: ' + error.message);
+  }
+}
+</script>
 </body>
 </html>
