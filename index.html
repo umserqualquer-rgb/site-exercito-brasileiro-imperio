@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EB Império | Portal Oficial</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 * {
     margin: 0;
@@ -80,6 +82,7 @@ header {
     align-items: center;
     margin-bottom: 35px;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 header h1 {
@@ -98,6 +101,41 @@ header p {
     padding: 9px 13px;
     border-radius: 20px;
     font-size: 12px;
+}
+
+.auth-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.auth-button {
+    background: #d8b45b;
+    color: #101b2e;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.auth-button:hover {
+    background: #edcf7b;
+}
+
+.logout-button {
+    background: #263750;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 10px 13px;
+    cursor: pointer;
+}
+
+.user-name {
+    color: #e5c36c;
+    font-size: 13px;
 }
 
 .section {
@@ -124,6 +162,7 @@ header p {
 .welcome p {
     color: #c1cede;
     font-size: 14px;
+    margin-top: 5px;
 }
 
 .stats {
@@ -163,34 +202,6 @@ header p {
     margin-bottom: 17px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-th, td {
-    padding: 14px 10px;
-    border-bottom: 1px solid #293b54;
-    font-size: 13px;
-}
-
-th {
-    color: #93a5be;
-}
-
-td {
-    color: #d5dfec;
-}
-
-.tag {
-    background: #263d59;
-    color: #e5c36c;
-    padding: 5px 9px;
-    border-radius: 5px;
-    font-size: 11px;
-}
-
 .info {
     color: #aab8ca;
     line-height: 1.8;
@@ -207,21 +218,22 @@ footer {
     body {
         display: block;
     }
+
     .sidebar {
         width: 100%;
         min-height: auto;
     }
+
     .stats {
         grid-template-columns: 1fr;
     }
+
     .main {
         padding: 18px;
     }
+
     header {
         align-items: flex-start;
-    }
-    .panel {
-        overflow-x: auto;
     }
 }
 </style>
@@ -254,11 +266,20 @@ footer {
         <h1 id="pageTitle">Painel Inicial</h1>
         <p>SITE EXÉRCITO BRASILEIRO IMPÉRIO</p>
     </div>
-    <div class="status">● Sistema em desenvolvimento</div>
+
+    <div class="auth-area">
+        <span id="userName" class="user-name"></span>
+        <button id="loginButton" class="auth-button" onclick="entrarComRoblox()">
+            Entrar com Roblox
+        </button>
+        <button id="logoutButton" class="logout-button"
+                onclick="sairDaConta()" hidden>
+            Sair
+        </button>
+    </div>
 </header>
 
 <section id="inicio" class="section active">
-
     <div class="welcome">
         <h2>Bem-vindo ao EB Império!</h2>
         <p>Portal administrativo oficial do grupo Roblox.</p>
@@ -293,21 +314,21 @@ footer {
 <section id="membros" class="section">
     <div class="panel">
         <h3>Quadro de membros</h3>
-        <p class="info">A lista real será carregada do grupo Roblox após a integração.</p>
+        <p class="info">A lista real será carregada após a integração.</p>
     </div>
 </section>
 
 <section id="patentes" class="section">
     <div class="panel">
         <h3>Gerenciamento de patentes</h3>
-        <p class="info">Aqui ficará a lista de patentes do grupo e suas permissões.</p>
+        <p class="info">Aqui ficará a lista de patentes do grupo.</p>
     </div>
 </section>
 
 <section id="divisoes" class="section">
     <div class="panel">
         <h3>Divisões do Exército</h3>
-        <p class="info">Aqui serão cadastradas e organizadas as divisões do EB.</p>
+        <p class="info">Aqui serão cadastradas e organizadas as divisões.</p>
     </div>
 </section>
 
@@ -346,6 +367,19 @@ footer {
 </main>
 
 <script>
+// CONFIGURAÇÃO SUPABASE
+const SUPABASE_URL = 'https://hqfiqqrkkpbjelrfrmms.supabase.co';
+
+// Use sua chave pública Publishable Key.
+// Nunca coloque uma chave sb_secret ou service_role aqui.
+const SUPABASE_KEY = 'sb_publishable_-tvlFfpBMGHZ21ed9du5Tg_yUgpzYoW';
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+// NAVEGAÇÃO
 function showPage(page, button) {
     document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
@@ -371,20 +405,70 @@ function showPage(page, button) {
 
     document.getElementById('pageTitle').textContent = titles[page];
 }
-</script>
-<script>
-async function entrarComRoblox() {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'custom:roblox',
-    options: {
-      redirectTo: window.location.origin
-    }
-  });
 
-  if (error) {
-    alert('Erro ao entrar com Roblox: ' + error.message);
-  }
+// LOGIN ROBLOX
+async function entrarComRoblox() {
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'custom:roblox',
+        options: {
+            redirectTo: window.location.href
+        }
+    });
+
+    if (error) {
+        alert('Erro ao entrar com Roblox: ' + error.message);
+    }
 }
+
+// SAIR DA CONTA
+async function sairDaConta() {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+        alert('Erro ao sair: ' + error.message);
+    }
+}
+
+// ATUALIZAR TELA DO USUÁRIO
+async function atualizarUsuario() {
+    const { data, error } = await supabaseClient.auth.getUser();
+
+    if (error) {
+        console.error(error.message);
+        return;
+    }
+
+    const user = data.user;
+
+    const loginButton = document.getElementById('loginButton');
+    const logoutButton = document.getElementById('logoutButton');
+    const userName = document.getElementById('userName');
+
+    if (user) {
+        loginButton.hidden = true;
+        logoutButton.hidden = false;
+
+        const metadata = user.user_metadata || {};
+
+        userName.textContent =
+            metadata.preferred_username ||
+            metadata.name ||
+            'Conta Roblox conectada';
+    } else {
+        loginButton.hidden = false;
+        logoutButton.hidden = true;
+        userName.textContent = '';
+    }
+}
+
+// OBSERVAR ALTERAÇÕES DE LOGIN
+supabaseClient.auth.onAuthStateChange(() => {
+    atualizarUsuario();
+});
+
+// VERIFICAR LOGIN AO ABRIR O SITE
+atualizarUsuario();
 </script>
+
 </body>
 </html>
