@@ -416,6 +416,66 @@ footer {
 </section>
 
 <section id="configuracoes" class="section">
+
+    <div class="panel">
+        <h3>Configurações do sistema</h3>
+
+        <p class="info" style="margin-bottom:20px;">
+            Gerencie as informações oficiais do portal EB IMPÉRIO.
+        </p>
+
+        <div class="settings-form">
+
+            <div class="settings-field">
+                <label for="settingName">Nome do site</label>
+                <input id="settingName" type="text" disabled>
+            </div>
+
+            <div class="settings-field">
+                <label for="settingGroup">ID do grupo Roblox</label>
+                <input id="settingGroup" type="text" disabled>
+            </div>
+
+            <div class="settings-field">
+                <label for="settingVersion">Versão do sistema</label>
+                <input id="settingVersion" type="text" disabled>
+            </div>
+
+            <div class="settings-field">
+                <label for="settingDescription">Descrição</label>
+                <textarea id="settingDescription" disabled></textarea>
+            </div>
+
+            <label class="settings-checkbox">
+                <input id="settingMaintenance" type="checkbox" disabled>
+                Ativar modo de manutenção
+            </label>
+
+            <button
+                id="saveSettingsButton"
+                class="settings-save"
+                onclick="salvarConfiguracoes()"
+                hidden>
+                Salvar configurações
+            </button>
+
+            <p id="settingsMessage" class="settings-message">
+                Carregando configurações...
+            </p>
+
+        </div>
+    </div>
+
+    <div class="panel">
+        <h3>Informações do sistema</h3>
+        <p class="info">
+            SITE EXÉRCITO BRASILEIRO IMPÉRIO<br>
+            Grupo Roblox: 434111120<br>
+            Portal administrativo EB IMPÉRIO.
+        </p>
+    </div>
+
+</section>
     <div class="panel">
         <h3>Configurações do sistema</h3>
         <p class="info">
